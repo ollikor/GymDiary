@@ -6,15 +6,13 @@
  */
 
 import React from 'react';
-import { View, Text } from 'react-native'
 
+import { NavigationContainer } from '@react-navigation/native';
 
-const App = () => {
+import Tabs from './src/Tabs';
+
+export default function App() {
   return (
-    <View>
-      <Text>GymDiary</Text>
-    </View>
+    <NavigationContainer><Tabs /></NavigationContainer>
   );
 }
-
-export default App;
