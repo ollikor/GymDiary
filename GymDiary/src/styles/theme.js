@@ -69,5 +69,6 @@ export const buttonRadius = {
 
 export const elevation = {
     xs: 1,
+    sm: 2,
     sm: 5
 }

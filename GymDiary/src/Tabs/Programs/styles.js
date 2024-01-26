@@ -8,8 +8,8 @@ export default StyleSheet.create({
     },
     AddProgramButton: {
         position: 'absolute',
-        right: 10,
-        bottom: 10,
+        right: paddings.sm,
+        bottom: paddings.sm,
 
         justifyContent: 'center',
         alignItems: 'center',
@@ -18,7 +18,7 @@ export default StyleSheet.create({
         height: 60,
 
         borderRadius: 30,
-        elevation: 2,
+        elevation: elevation.sm,
         backgroundColor: colors.primaryBackground,
     },
     AddProgramButtonText: {
