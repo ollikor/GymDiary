@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import { StyleSheet, ScrollView, View, Text, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, TextInput } from 'react-native';
 import { colors, margins, paddings, elevation, fonts, borderRadius } from '../styles/theme';
 
+import SmallCircleButton from './SmallCircleButton';
+
 export default function MoveItems() {
+    const [sets, setSet] = useState(1);
     const [reps, setReps] = useState(0);
     const [kg, setKg] = useState(0);
     const [inputValue, setInputValue] = useState(1);
@@ -30,6 +33,10 @@ export default function MoveItems() {
             case 10:
                 setInputValue(0.5)
         }
+    }
+
+    function addSet() {
+
     }
 
     return (
@@ -61,33 +68,19 @@ export default function MoveItems() {
             </View>
             <View style={styles.Content}>
                 <View style={styles.Section1}>
-                    <TextInput editable={false}>0</TextInput>
+                    <TextInput editable={false}>1</TextInput>
                     <TextInput>{reps}</TextInput>
                     <TextInput>{kg}</TextInput>
                 </View>
                 <View style={styles.Section2}>
                     <View style={styles.Section2Content}>
-                        <TouchableOpacity
-                            style={styles.Section2Button}
-                            onPress={() => increase(activeButton)}
-                        >
-                            <Text style={styles.Section2ButtonText}>+</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={styles.Section2Button}
-                            onPress={() => decrease(activeButton)}
-                        >
-                            <Text style={styles.Section2ButtonText}>-</Text>
-                        </TouchableOpacity>
+                        <SmallCircleButton value='+' handlePress={() => increase(activeButton)} />
+                        <SmallCircleButton value='-' handlePress={() => decrease(activeButton)} />
                     </View>
                 </View>
             </View>
             <View style={styles.AddSet}>
-                <TouchableOpacity
-                    style={styles.Section2Button}
-                >
-                    <Text style={styles.Section2ButtonText}>+</Text>
-                </TouchableOpacity>
+                <SmallCircleButton value='+' handlePress={addSet} />
             </View>
         </View>
     );
@@ -133,26 +126,5 @@ const styles = StyleSheet.create({
     },
     ContentButtonsText: {
         color: colors.lightText
-    },
-    Section2Button: {
-        width: 40,
-        height: 40,
-        marginLeft: margins.xs,
-
-        padding: paddings.sm,
-
-        borderRadius: borderRadius.lg,
-        elevation: elevation.xs,
-        backgroundColor: colors.primaryBackground
-    },
-    Section2ButtonText: {
-        lineHeight: fonts.xxl + 5,
-        fontSize: fonts.xxxl,
-        textAlign: 'center',
-        color: colors.lightText,
-    },
-    AddSet: {
-        margin: margins.sm,
-        alignItems: 'center',
     }
 });
