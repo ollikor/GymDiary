@@ -1,12 +1,8 @@
-import { View, ScrollView, TouchableOpacity, Text, Alert } from 'react-native';
+import { View, ScrollView, TouchableOpacity, Text } from 'react-native';
 
 import styles from './styles';
 
-function addProgram() {
-
-}
-
-export default function ProgramsScreen( {navigation} ) {
+export default function Programs( {navigation} ) {
     return (
         <View>
             <ScrollView style={styles.ProgramsScrollView}>
@@ -17,7 +13,7 @@ export default function ProgramsScreen( {navigation} ) {
             </ScrollView>
             <View>
                 <TouchableOpacity
-                    onPress={addProgram}
+                    onPress={() => navigation.navigate('Create Program')}
                     style={styles.AddProgramButton}
                 ><Text style={styles.AddProgramButtonText}>+</Text></TouchableOpacity>
             </View>
