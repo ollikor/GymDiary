@@ -1,22 +1,32 @@
-import { View, Text, TouchableOpacity } from 'react-native';
-import styles from './styles';
+import { ScrollView, View, TextInput, StyleSheet } from 'react-native';
+import { colors, margins, paddings, elevation, fonts, borderRadius } from '../../styles/theme';
 
 import MoveItems from '../../components/MoveItems';
-import { TextInput } from 'react-native-gesture-handler';
 
-const moves = ['Benchpress', 'Squat', 'Chinups'];
+const moves = ['benchpress', 'Squat', 'Chinups', 'pullups'];
 
 export default function ExerciseScreen() {
-    return (
-      <View>
-        {
-          moves.map((item) => (
-            <View>
-              <TextInput>{item}</TextInput>
-              <MoveItems />
-              </View>            
-          ))
-        }
-      </View>
-    );
+  return (
+    <ScrollView>
+      {
+        moves.map((item) => (
+          <View style={styles.Container}>
+            <TextInput style={styles.TextInput}>{item}</TextInput>
+            <MoveItems />
+          </View>
+        ))
+      }
+    </ScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  Container: {
+    marginBottom: margins.xl
+  },
+  TextInput: {
+    width: '100%',
+    textAlign: 'center',
+    fontSize: fonts.lg
   }
+});
