@@ -1,10 +1,10 @@
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, TextInput, Text, TouchableOpacity } from 'react-native';
 import styles from './styles';
 
 export default function CreateProgram() {
     return (
       <View>
-        <Text>Benchpress</Text>
+        <TextInput placeholder='Program name'></TextInput>
       </View>
     );
   }

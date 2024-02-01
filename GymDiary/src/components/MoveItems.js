@@ -1,24 +1,46 @@
 import { StyleSheet, ScrollView, View, Text, TouchableOpacity, TextInput } from 'react-native';
-import { colors, paddings } from '../styles/theme';
+import { colors, margins, paddings, elevation, fonts, borderRadius } from '../styles/theme';
 
 export default function MoveItems() {
     return (
         <ScrollView>
-
-        <View style={styles.Container}>
-            <View style={styles.Content}>
-
-                <Text style={styles.ContainerButtons}>Set</Text>
-                <TouchableOpacity style={styles.ContainerButtons}><Text>Reps</Text></TouchableOpacity>
-                <TouchableOpacity style={styles.ContainerButtons}><Text>Kg</Text></TouchableOpacity>
-                <TouchableOpacity style={styles.ContainerButtons}><Text>1</Text></TouchableOpacity>
+            <View style={styles.Container}>
+                <View style={styles.Section1}>
+                    <Text style={styles.ContentButtons}>Set</Text>
+                    <TouchableOpacity style={styles.ContentButtons}>
+                        <Text  style={styles.ContentButtonsText}>Reps</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.ContentButtons}>
+                        <Text style={styles.ContentButtonsText}>Kg</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.Section2}>
+                    <TouchableOpacity style={styles.ContentButtons}>
+                        <Text style={styles.ContentButtonsText}>10</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
-        </View>
-            <View style={styles.Content}>
-                <TextInput>1</TextInput>
-                <TextInput>0</TextInput>
-                <TextInput>0</TextInput>
-                <TouchableOpacity><Text>+</Text></TouchableOpacity><TouchableOpacity><Text>-</Text></TouchableOpacity>
+            <View style={styles.Container}>
+                <View style={styles.Section1}>
+                    <TextInput>1</TextInput>
+                    <TextInput>0</TextInput>
+                    <TextInput>0</TextInput>
+                </View>
+                <View style={styles.Section2}>
+                    <View style={styles.Section2Content}>
+                        <TouchableOpacity style={styles.Section2Button}>
+                            <Text style={styles.Section2ButtonText}>+</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.Section2Button}>
+                            <Text style={styles.Section2ButtonText}>-</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </View>
+            <View style={styles.AddSet}>
+                <TouchableOpacity style={styles.Section2Button}>
+                    <Text style={styles.Section2ButtonText}>+</Text>
+                </TouchableOpacity>
             </View>
         </ScrollView>
     );
@@ -26,23 +48,54 @@ export default function MoveItems() {
 
 const styles = StyleSheet.create({
     Container: {
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'space-around',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
 
-        padding: paddings.md,
+        paddingLeft: paddings.md,
+        paddingRight: paddings.md,
+        paddingTop: paddings.sm
     },
-    Content: {
+    Section1: {
         flex: 2,
         flexDirection: 'row',
-        justifyContent: 'space-around'
-        // alignItems: 'center'
-
+        justifyContent: 'space-around',
     },
-    ContainerButtons: {
+    Section2: {
+        flex: 1,
+        justifyContent: 'space-around',
+        alignItems: 'flex-end',
+    },
+    Section2Content: {
+        flexDirection: 'row',
+    },
+    ContentButtons: {
         padding: paddings.sm,
-        borderRadius: 5,
+        borderRadius: borderRadius.xs,
         color: colors.lightText,
         backgroundColor: colors.secondaryBackground
+    },
+    ContentButtonsText: {
+        color: colors.lightText
+    },
+    Section2Button: {
+        marginLeft: margins.xs,
+        width: 40,
+        height: 40,
+
+        padding: paddings.sm,
+
+        borderRadius: borderRadius.lg,
+        elevation: elevation.xs,
+        backgroundColor: colors.primaryBackground
+    },
+    Section2ButtonText: {
+        lineHeight: fonts.xxl + 5,
+        fontSize: fonts.xxxl,
+        textAlign: 'center',
+        color: colors.lightText,
+    },
+    AddSet: {
+        margin: margins.sm,
+        alignItems: 'center',
     }
 });

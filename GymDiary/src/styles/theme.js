@@ -32,7 +32,7 @@ export const paddings = {
     xxxl: 75
 }
 
-export const margin = {
+export const margins = {
     xs: 5,
     sm: 10,
     md: 15,
@@ -60,7 +60,7 @@ export const buttons = {
     xl: 200
 }
 
-export const buttonRadius = {
+export const borderRadius = {
     xs: 5,
     sm: 15,
     md: 20,
