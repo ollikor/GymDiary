@@ -1,5 +1,3 @@
-import { fetchTheme } from '../realm/schemas';
-
 export const colors = {
     primaryBackground: '#186600',
     secondaryBackground: '#666666',

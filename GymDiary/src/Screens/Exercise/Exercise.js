@@ -9,8 +9,8 @@ export default function ExerciseScreen() {
   return (
     <ScrollView>
       {
-        moves.map((item) => (
-          <View style={styles.Container}>
+        moves.map((item, index) => (
+          <View key={index} style={styles.Container}>
             <TextInput style={styles.TextInput}>{item}</TextInput>
             <MoveItems />
           </View>
@@ -22,7 +22,9 @@ export default function ExerciseScreen() {
 
 const styles = StyleSheet.create({
   Container: {
-    marginBottom: margins.xl
+    marginBottom: margins.xl,
+    elevation: elevation.sm,
+    backgroundColor: colors.tertiaryBackground,
   },
   TextInput: {
     width: '100%',
