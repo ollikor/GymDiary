@@ -2,6 +2,8 @@ import { View, ScrollView, TouchableOpacity, Text } from 'react-native';
 
 import styles from './styles';
 
+const program = {moves: { benchpress: {}}}
+
 export default function Programs( {navigation} ) {
     return (
         <View>

@@ -1,15 +1,16 @@
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, Pressable } from 'react-native';
 import { colors, fonts, margins, paddings, borderRadius, elevation } from '../styles/theme';
 
 export default function SmallCircleButton(props) {
     return (
         <View style={styles.AddSet}>
-            <TouchableOpacity
+            <Pressable
                 style={styles.Section2Button}
                 onPress={() => props.handlePress()}
+                onLongPress={() => props.handleLongPress()}
             >
                 <Text style={styles.Section2ButtonText}>{props.value}</Text>
-            </TouchableOpacity>
+            </Pressable>
         </View>
     );
 }

@@ -3,16 +3,20 @@ import { colors, margins, paddings, elevation, fonts, borderRadius } from '../..
 
 import MoveItems from '../../components/MoveItems';
 
-const moves = ['benchpress', 'Squat', 'Chinups', 'pullups'];
+const moves = {
+  benchpress: { sets: 3, reps: 3, weight: 60 },
+  squat: { sets: 2, reps: 3, weight: 80 },
+  deadlift: { sets: 3, reps: 3, weight: 100 },
+};
 
 export default function ExerciseScreen() {
   return (
     <ScrollView>
       {
-        moves.map((item, index) => (
+        Object.keys(moves).map((item, index) => (
           <View key={index} style={styles.Container}>
             <TextInput style={styles.TextInput}>{item}</TextInput>
-            <MoveItems />
+            <MoveItems reps={moves[item].reps} weight={moves[item].weight} />
           </View>
         ))
       }

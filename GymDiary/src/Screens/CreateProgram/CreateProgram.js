@@ -19,7 +19,7 @@ export default function CreateProgram({navigation, route}) {
         <Text>Add moves</Text>
       </TouchableOpacity>
       {console.log(route.params?.moves)}
-      {route.params?.moves != undefined ? route.params?.moves.map(item => <Text>{item.name}</Text>):null}
+      {route.params?.moves != undefined ? route.params?.moves.map((item, index) => <Text key={index}>{item.name}</Text>):null}
       <PlusButton value={'+'} handlePress={() => addSet(sets + 1)} />
     </View>
   );

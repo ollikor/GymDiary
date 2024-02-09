@@ -1,24 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, TextInput } from 'react-native';
 import { colors, margins, paddings, elevation, fonts, borderRadius } from '../styles/theme';
 
 import SmallCircleButton from './SmallCircleButton';
 
-export default function MoveItems() {
+export default function MoveItems(props) {
+
+    useEffect(() => {
+        setReps(props.reps);
+        setWeight(props.weight);
+    },[])
+
     const [sets, setSet] = useState(1);
     const [reps, setReps] = useState(0);
-    const [kg, setKg] = useState(0);
+    const [weight, setWeight] = useState(0);
     const [inputValue, setInputValue] = useState(1);
     const [activeButton, setActiveButton] = useState('reps');
 
     function increase(value) {
-        if (value === 'reps' ? setReps(reps + inputValue) : setKg(kg + inputValue));
+        if (value === 'reps' ? setReps(reps + inputValue) : setWeight(weight + inputValue));
     }
     function decrease(value) {
         if (value === 'reps' && reps > 0) {
             setReps(reps - inputValue);
-        } else if (value === 'kg' && kg > 0) {
-            setKg(kg - inputValue)
+        } else if (value === 'weight' && weight > 0) {
+            setWeight(weight - inputValue)
         }
     }
 
@@ -35,9 +41,9 @@ export default function MoveItems() {
         }
     }
 
-    function addSet() {
-
-    }
+    // function addSet() {
+    //     setSet(sets + 1);
+    // }
 
     return (
         <View style={styles.Container}>
@@ -51,8 +57,8 @@ export default function MoveItems() {
                         <Text style={styles.ContentButtonsText}>Reps</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        style={activeButton === 'kg' ? styles.ActiveContentButtons : styles.ContentButtons}
-                        onPress={() => setActiveButton('kg')}
+                        style={activeButton === 'weight' ? styles.ActiveContentButtons : styles.ContentButtons}
+                        onPress={() => setActiveButton('weight')}
                     >
                         <Text style={styles.ContentButtonsText}>Kg</Text>
                     </TouchableOpacity>
@@ -66,21 +72,24 @@ export default function MoveItems() {
                     </TouchableOpacity>
                 </View>
             </View>
-            <View style={styles.Content}>
-                <View style={styles.Section1}>
-                    <TextInput editable={false}>1</TextInput>
-                    <TextInput>{reps}</TextInput>
-                    <TextInput>{kg}</TextInput>
-                </View>
-                <View style={styles.Section2}>
-                    <View style={styles.Section2Content}>
-                        <SmallCircleButton value='+' handlePress={() => increase(activeButton)} />
-                        <SmallCircleButton value='-' handlePress={() => decrease(activeButton)} />
+            {[...Array(sets)].map((_, index) => 
+                <View key={index} style={styles.Content}>
+                    <View style={styles.Section1}>
+                        <TextInput editable={false}>{index + 1}</TextInput>
+                        <TextInput>{reps}</TextInput>
+                        <TextInput>{weight}</TextInput>
+                    </View>
+                    <View style={styles.Section2}>
+                        <View style={styles.Section2Content}>
+                            <SmallCircleButton value='+' handlePress={() => increase(activeButton)} />
+                            <SmallCircleButton value='-' handlePress={() => decrease(activeButton)} />
+                        </View>
                     </View>
                 </View>
-            </View>
+            )
+            }
             <View style={styles.AddSet}>
-                <SmallCircleButton value='+' handlePress={addSet} />
+                <SmallCircleButton  value='+' handleLongPress={() => sets > 1 ? setSet(sets - 1):null} handlePress={() => setSet(sets + 1)} />
             </View>
         </View>
     );
