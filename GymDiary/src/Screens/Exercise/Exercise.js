@@ -4,19 +4,20 @@ import { colors, margins, paddings, elevation, fonts, borderRadius } from '../..
 import MoveItems from '../../components/MoveItems';
 
 const moves = {
-  benchpress: { sets: 3, reps: 3, weight: 60 },
-  squat: { sets: 2, reps: 3, weight: 80 },
-  deadlift: { sets: 3, reps: 3, weight: 100 },
+  // benchpress: { sets: [{ reps: 3, weight: 60},{reps: 5, weight: 80 }]},
+  benchpress: { sets: [{ id: Date.now() + Math.random(), reps: 2, weight: 60 }, { id: Date.now() + Math.random(), reps: 5, weight: 80 }]},
+  squat: { sets: [{ id: Date.now() + Math.random(), reps: 3, weight: 80}]},
+  deadlift: { sets: [{ id: Date.now() + Math.random(), reps: 3, weight: 100 }]},
 };
 
 export default function ExerciseScreen() {
   return (
     <ScrollView>
       {
-        Object.keys(moves).map((item, index) => (
+       Object.keys(moves).map((item, index) => (
           <View key={index} style={styles.Container}>
             <TextInput style={styles.TextInput}>{item}</TextInput>
-            <MoveItems reps={moves[item].reps} weight={moves[item].weight} />
+            <MoveItems move={moves[item]} />
           </View>
         ))
       }

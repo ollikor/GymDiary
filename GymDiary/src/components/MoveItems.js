@@ -7,25 +7,66 @@ import SmallCircleButton from './SmallCircleButton';
 export default function MoveItems(props) {
 
     useEffect(() => {
-        setReps(props.reps);
-        setWeight(props.weight);
-    },[])
+        setSet([...props.move.sets]);
+        // console.log(sets)
+    }, []);
 
-    const [sets, setSet] = useState(1);
-    const [reps, setReps] = useState(0);
+    const [sets, setSet] = useState([]);
+    const [reps, setReps] = useState({});
     const [weight, setWeight] = useState(0);
     const [inputValue, setInputValue] = useState(1);
     const [activeButton, setActiveButton] = useState('reps');
 
-    function increase(value) {
-        if (value === 'reps' ? setReps(reps + inputValue) : setWeight(weight + inputValue));
+    function increase(activeButton, id) {
+
+        setSet((prevSet) => {
+            return prevSet.map((item) =>
+                item.id === id
+                    ? activeButton === 'reps'
+                        ? { ...item, reps: item.reps + inputValue }
+                        : activeButton === 'weight'
+                            ? { ...item, weight: item.weight + inputValue }
+                            : item
+                    : item
+            );
+        });
     }
-    function decrease(value) {
-        if (value === 'reps' && reps > 0) {
-            setReps(reps - inputValue);
-        } else if (value === 'weight' && weight > 0) {
-            setWeight(weight - inputValue)
-        }
+
+    function decrease(activeButton, id) {
+        setSet((prevSet) => {
+            return prevSet.map((item) =>
+                item.id === id
+                    ? activeButton === 'reps' && item.reps - inputValue > 0
+                        ? { ...item, reps: item.reps - inputValue }
+                        : activeButton === 'weight' && item.weight - inputValue > 0
+                            ? { ...item, weight: item.weight - inputValue }
+                            : item
+                    : item
+            )
+        })
+    }
+
+    function addSet() {
+        setSet([...sets, { id: Date.now() + Math.random(), reps: 1, weight: 1 }]);
+    }
+
+    function removeSet() {
+        setSet(prevSet => prevSet.slice(0, -1));
+    }
+
+    function handleInputChange(inputValue, inputType, id) {
+        // e.preventDefault();
+        setSet((prevSet) => {
+            return prevSet.map((item) => 
+                item.id === id
+                    ? inputType === 'reps' && inputValue > 0
+                        ? {...item, reps: inputValue, weight: item.weight}
+                        :inputType === 'weight' && inputValue > 0
+                        ? {...item, reps: item.reps, weight: inputValue}
+                        :item
+                    :item
+            )
+        })
     }
 
     function changeInputValue() {
@@ -37,13 +78,9 @@ export default function MoveItems(props) {
                 setInputValue(10)
                 break;
             case 10:
-                setInputValue(0.5)
+                activeButton === 'weight' ? setInputValue(0.5) : setInputValue(1)
         }
     }
-
-    // function addSet() {
-    //     setSet(sets + 1);
-    // }
 
     return (
         <View style={styles.Container}>
@@ -72,24 +109,31 @@ export default function MoveItems(props) {
                     </TouchableOpacity>
                 </View>
             </View>
-            {[...Array(sets)].map((_, index) => 
+            {/* {sets != undefined ? [...Array(sets)].map((_, index) =>  */}
+            {sets != undefined ? sets.map((set, index) =>
                 <View key={index} style={styles.Content}>
                     <View style={styles.Section1}>
                         <TextInput editable={false}>{index + 1}</TextInput>
-                        <TextInput>{reps}</TextInput>
-                        <TextInput>{weight}</TextInput>
+                        <TextInput onChangeText={inputValue => handleInputChange(inputValue, 'reps', set.id)}>{set.reps}</TextInput>
+                        <TextInput onChangeText={inputValue => handleInputChange(inputValue, 'weight', set.id)}>{set.weight}</TextInput>
                     </View>
                     <View style={styles.Section2}>
                         <View style={styles.Section2Content}>
-                            <SmallCircleButton value='+' handlePress={() => increase(activeButton)} />
-                            <SmallCircleButton value='-' handlePress={() => decrease(activeButton)} />
+                            <SmallCircleButton value='+' handlePress={() => increase(activeButton, set.id)} />
+                            <SmallCircleButton value='-' handlePress={() => decrease(activeButton, set.id)} />
                         </View>
                     </View>
-                </View>
-            )
+                </View>,
+                console.log('state', sets)
+                // ):null}
+            ) : null
             }
             <View style={styles.AddSet}>
-                <SmallCircleButton  value='+' handleLongPress={() => sets > 1 ? setSet(sets - 1):null} handlePress={() => setSet(sets + 1)} />
+                <SmallCircleButton
+                    value='+'
+                    handleLongPress={() => sets.length > 1 ? removeSet() : null}
+                    handlePress={() => addSet()}
+                />
             </View>
         </View>
     );
