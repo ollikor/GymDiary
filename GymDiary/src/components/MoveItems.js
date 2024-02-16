@@ -1,25 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, TextInput } from 'react-native';
-import { colors, margins, paddings, elevation, fonts, borderRadius } from '../styles/theme';
+import { colors, margins, paddings, borderRadius } from '../styles/theme';
 
 import SmallCircleButton from './SmallCircleButton';
 
 export default function MoveItems(props) {
 
     useEffect(() => {
-        setSet([...props.move.sets]);
-        // console.log(sets)
+        addSet([...props.move.sets]);
     }, []);
 
-    const [sets, setSet] = useState([]);
-    const [reps, setReps] = useState({});
-    const [weight, setWeight] = useState(0);
+    const [sets, addSet] = useState([]);
     const [inputValue, setInputValue] = useState(1);
     const [activeButton, setActiveButton] = useState('reps');
 
-    function increase(activeButton, id) {
-
-        setSet((prevSet) => {
+    function handleIncrease(activeButton, id) {
+        addSet((prevSet) => {
             return prevSet.map((item) =>
                 item.id === id
                     ? activeButton === 'reps'
@@ -32,8 +28,8 @@ export default function MoveItems(props) {
         });
     }
 
-    function decrease(activeButton, id) {
-        setSet((prevSet) => {
+    function handleDecrease(activeButton, id) {
+        addSet((prevSet) => {
             return prevSet.map((item) =>
                 item.id === id
                     ? activeButton === 'reps' && item.reps - inputValue > 0
@@ -46,30 +42,29 @@ export default function MoveItems(props) {
         })
     }
 
-    function addSet() {
-        setSet([...sets, { id: Date.now() + Math.random(), reps: 1, weight: 1 }]);
+    function handleSets() {
+        addSet([...sets, { id: Date.now() + Math.random(), reps: 1, weight: 1 }]);
     }
 
     function removeSet() {
-        setSet(prevSet => prevSet.slice(0, -1));
+        addSet(prevSet => prevSet.slice(0, -1));
     }
 
     function handleInputChange(inputValue, inputType, id) {
-        // e.preventDefault();
-        setSet((prevSet) => {
-            return prevSet.map((item) => 
+        addSet((prevSet) => {
+            return prevSet.map((item) =>
                 item.id === id
                     ? inputType === 'reps' && inputValue > 0
-                        ? {...item, reps: inputValue, weight: item.weight}
-                        :inputType === 'weight' && inputValue > 0
-                        ? {...item, reps: item.reps, weight: inputValue}
-                        :item
-                    :item
+                        ? { ...item, reps: inputValue, weight: item.weight }
+                        : inputType === 'weight' && inputValue > 0
+                            ? { ...item, reps: item.reps, weight: inputValue }
+                            : item
+                    : item
             )
         })
     }
 
-    function changeInputValue() {
+    function handleInputValue() {
         switch (inputValue) {
             case 0.5:
                 setInputValue(1)
@@ -82,6 +77,11 @@ export default function MoveItems(props) {
         }
     }
 
+    function handleActiveButton(value) {
+        setInputValue(1);
+        setActiveButton(value);
+    }
+
     return (
         <View style={styles.Container}>
             <View style={styles.Content}>
@@ -89,13 +89,13 @@ export default function MoveItems(props) {
                     <Text style={styles.ContentButtons}>Set</Text>
                     <TouchableOpacity
                         style={activeButton === 'reps' ? styles.ActiveContentButtons : styles.ContentButtons}
-                        onPress={() => setActiveButton('reps')}
+                        onPress={() => handleActiveButton('reps')}
                     >
                         <Text style={styles.ContentButtonsText}>Reps</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={activeButton === 'weight' ? styles.ActiveContentButtons : styles.ContentButtons}
-                        onPress={() => setActiveButton('weight')}
+                        onPress={() => handleActiveButton('weight')}
                     >
                         <Text style={styles.ContentButtonsText}>Kg</Text>
                     </TouchableOpacity>
@@ -103,13 +103,12 @@ export default function MoveItems(props) {
                 <View style={styles.Section2}>
                     <TouchableOpacity
                         style={styles.ActiveContentButtons}
-                        onPress={() => changeInputValue()}
+                        onPress={() => handleInputValue()}
                     >
                         <Text style={styles.ContentButtonsText}>{inputValue}</Text>
                     </TouchableOpacity>
                 </View>
             </View>
-            {/* {sets != undefined ? [...Array(sets)].map((_, index) =>  */}
             {sets != undefined ? sets.map((set, index) =>
                 <View key={index} style={styles.Content}>
                     <View style={styles.Section1}>
@@ -119,20 +118,18 @@ export default function MoveItems(props) {
                     </View>
                     <View style={styles.Section2}>
                         <View style={styles.Section2Content}>
-                            <SmallCircleButton value='+' handlePress={() => increase(activeButton, set.id)} />
-                            <SmallCircleButton value='-' handlePress={() => decrease(activeButton, set.id)} />
+                            <SmallCircleButton value='+' handlePress={() => handleIncrease(activeButton, set.id)} />
+                            <SmallCircleButton value='-' handlePress={() => handleDecrease(activeButton, set.id)} />
                         </View>
                     </View>
                 </View>,
-                console.log('state', sets)
-                // ):null}
             ) : null
             }
-            <View style={styles.AddSet}>
+            <View>
                 <SmallCircleButton
                     value='+'
                     handleLongPress={() => sets.length > 1 ? removeSet() : null}
-                    handlePress={() => addSet()}
+                    handlePress={() => handleSets()}
                 />
             </View>
         </View>
@@ -161,9 +158,6 @@ const styles = StyleSheet.create({
     },
     Section2Content: {
         flexDirection: 'row',
-    },
-    ActiveButton: {
-        backgroundColor: colors.primaryBackground
     },
     ContentButtons: {
         padding: paddings.sm,

@@ -1,8 +1,7 @@
-import React, { useState, onBackPress, useEffect  } from 'react';
-import { View, SectionList, TouchableOpacity ,Button, Text, StyleSheet, BackHandler } from 'react-native';
-import { useFocusEffect,  } from '@react-navigation/native';
+import React, { useState } from 'react';
+import { View, SectionList, TouchableOpacity,Text ,Button, StyleSheet } from 'react-native';
 
-import { colors, margins, paddings, elevation, fonts, borderRadius } from '../../styles/theme';
+import { colors, paddings, fonts } from '../../styles/theme';
 
 export default function Moves({navigation, route}) {
     
@@ -49,7 +48,7 @@ export default function Moves({navigation, route}) {
             })}} />
         </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
     Title: {
