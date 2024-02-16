@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { View, SectionList, TouchableOpacity,Text ,Button, StyleSheet } from 'react-native';
+import { View, SectionList, TouchableOpacity, Text, Button, StyleSheet } from 'react-native';
 
 import { colors, paddings, fonts } from '../../styles/theme';
 
-export default function Moves({navigation, route}) {
-    
+export default function Moves({ navigation, route }) {
+
     const [moves, addMoves] = useState([]);
 
     return (
@@ -41,11 +41,13 @@ export default function Moves({navigation, route}) {
                 renderSectionHeader={({ section }) => (
                     <Text style={styles.Title}>{section.title}</Text>
                 )}
-                keyExtractor={item => {item}}
+                keyExtractor={item => { item }}
             />
-            <Button title='Done' onPress={() => {navigation.navigate({
-                name: 'Create Program', params: {moves: moves}, merge: true
-            })}} />
+            <Button title='Done' onPress={() => {
+                navigation.navigate({
+                    name: 'Create Program', params: { moves: moves }, merge: true
+                })
+            }} />
         </View>
     );
 };

@@ -1,6 +1,6 @@
-import {View, ScrollView, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { View, ScrollView, TouchableOpacity, Text, StyleSheet } from 'react-native';
 
-import { colors, paddings, fonts,elevation } from '../../styles/theme';
+import { colors, paddings, fonts, elevation } from '../../styles/theme';
 
 export default function Programs({ navigation }) {
     return (

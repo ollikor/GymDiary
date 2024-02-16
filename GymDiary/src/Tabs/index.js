@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from '@react-navigation/stack';
 
-import {colors} from '../styles/theme'
+import { colors } from '../styles/theme'
 
 import Programs from './Programs/Programs';
 import History from './History/History';
@@ -13,19 +13,39 @@ import Moves from '../Screens/Moves/Moves';
 const Tab = createBottomTabNavigator();
 
 const ProgramsStack = createStackNavigator();
+const HistoryStack = createStackNavigator();
 
-function ProgramsStackScreen() {
-    return(
-        <ProgramsStack.Navigator 
+function HistoryStackScreen() {
+    return (
+        <HistoryStack.Navigator
             screenOptions={{
-                headerStyle: { 
+                headerStyle: {
                     backgroundColor: colors.primaryBackground,
                 },
                 headerTitleAlign: 'center',
                 headerTintColor: colors.lightText,
                 headerTitleStyle: {
-                    fontWeight: 'bold',
-                }}}>
+                    fontWeight: 'bold'
+                }
+            }}>
+            <HistoryStack.Screen name='History of training' component={History} />
+        </HistoryStack.Navigator>
+    );
+};
+
+function ProgramsStackScreen() {
+    return (
+        <ProgramsStack.Navigator
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: colors.primaryBackground,
+                },
+                headerTitleAlign: 'center',
+                headerTintColor: colors.lightText,
+                headerTitleStyle: {
+                    fontWeight: 'bold'
+                }
+            }}>
             <ProgramsStack.Screen name='Gym Diary' component={Programs} />
             <ProgramsStack.Screen name='Exercise' component={Exercise} />
             <ProgramsStack.Screen name='Timer' component={Timer} />
@@ -36,11 +56,11 @@ function ProgramsStackScreen() {
 };
 
 export default function Tabs() {
-    return(
+    return (
 
-            <Tab.Navigator screenOptions={{ headerShown: false }}>
-                <Tab.Screen name='Training' component={ProgramsStackScreen} />
-                <Tab.Screen name='History' component={History} />
-            </Tab.Navigator>        
+        <Tab.Navigator screenOptions={{ headerShown: false }}>
+            <Tab.Screen name='Training' component={ProgramsStackScreen} />
+            <Tab.Screen name='History' component={HistoryStackScreen} />
+        </Tab.Navigator>
     );
 };
