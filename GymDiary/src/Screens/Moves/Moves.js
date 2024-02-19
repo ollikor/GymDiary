@@ -6,6 +6,18 @@ import { colors, paddings, fonts } from '../../styles/theme';
 export default function Moves({ navigation, route }) {
 
     const [moves, addMoves] = useState([]);
+    const [activeItems, changeActiveItems] = useState([]);
+
+    function handlePress(item, id) {
+        const isActive = activeItems.includes(id);
+        if (isActive === true) {
+            addMoves(prevMoves => prevMoves.filter(item => item.item.id != id));
+            changeActiveItems(prevActiveItems => prevActiveItems.filter(itemId => itemId != id));
+        } else {
+            addMoves([...moves, { item }])
+            changeActiveItems([...activeItems, id])
+        }
+    }
 
     return (
         <View>
@@ -14,36 +26,41 @@ export default function Moves({ navigation, route }) {
                     {
                         title: 'Chess',
                         data: [
-                            'Benchpress',
+                            { id: `1`, value: 'Benchpress' }
                         ],
                     },
                     {
                         title: 'Legs',
                         data: [
-                            'Squat',
+                            { id: `2`, value: 'Squat' }
                         ],
                     },
                     {
                         title: 'Back',
                         data: [
-                            'Pullups'
+                            { id: `3`, value: 'Pullup' }
                         ],
                     },
                 ]}
                 renderItem={({ item }) =>
-                    <TouchableOpacity onPress={() => {
-                        addMoves([...moves, { id: new Date().toDateString(), name: item }],
-                        )
-                    }}
+                    <TouchableOpacity
+                        onPress={() => handlePress(item, item.id)}
                     >
-                        <Text style={styles.ListItem}>{item}</Text>
+                        <View style={styles.ListItemContent}>
+                            <Text style={styles.ListItem}>{item.value}</Text>
+                            {
+                                activeItems.includes(item.id) ?
+                                    <Text style={styles.ActiveCheckMark}>V</Text>
+                                    : null
+                            }
+                        </View>
                     </TouchableOpacity>}
                 renderSectionHeader={({ section }) => (
                     <Text style={styles.Title}>{section.title}</Text>
                 )}
-                keyExtractor={item => { item }}
+                keyExtractor={item => { item = item.id }}
             />
-            <Button title='Done' onPress={() => {
+            <Button title='Save moves' onPress={() => {
                 navigation.navigate({
                     name: 'Create Program', params: { moves: moves }, merge: true
                 })
@@ -59,7 +76,18 @@ const styles = StyleSheet.create({
         fontSize: fonts.lg,
         color: colors.darkText,
     },
+    ListItemContent: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        padding: paddings.sm,
+    },
     ListItem: {
-        padding: paddings.sm
+        // padding: paddings.sm
+    },
+    ActiveCheckMark: {
+        fontSize: fonts.lg,
+        fontWeight: 'bold',
+        fontStyle: 'italic',
+        color: colors.primaryBackground
     }
 });

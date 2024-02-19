@@ -18,7 +18,7 @@ export default function CreateProgram({ navigation, route }) {
             {console.log(route.params?.moves)}
             {
                 route.params?.moves != undefined ? route.params?.moves.map((item, index) =>
-                    <Text key={index}>{item.name}</Text>
+                    <Text key={index}>{item.item.value}</Text>
                 ) : null
             }
             <PlusButton value={'+'} handlePress={() => addSet(sets + 1)} />
