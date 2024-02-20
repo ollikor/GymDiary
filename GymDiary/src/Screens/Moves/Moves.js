@@ -1,9 +1,23 @@
-import React, { useState } from 'react';
-import { View, SectionList, TouchableOpacity, Text, Button, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, SectionList, TouchableOpacity, Text, StyleSheet } from 'react-native';
 
 import { colors, paddings, fonts } from '../../styles/theme';
 
 export default function Moves({ navigation, route }) {
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerRight: () => (
+                <TouchableOpacity
+                    style={styles.Save}
+                    onPress={() => {
+                        navigation.navigate({
+                            name: 'Create Program', params: { moves: moves }, merge: true
+                        })
+                    }}><Text style={styles.SaveText}>Save</Text></TouchableOpacity>
+            )
+        })
+    });
 
     const [moves, addMoves] = useState([]);
     const [activeItems, changeActiveItems] = useState([]);
@@ -60,16 +74,18 @@ export default function Moves({ navigation, route }) {
                 )}
                 keyExtractor={item => { item = item.id }}
             />
-            <Button title='Save moves' onPress={() => {
-                navigation.navigate({
-                    name: 'Create Program', params: { moves: moves }, merge: true
-                })
-            }} />
         </View>
     );
 };
 
 const styles = StyleSheet.create({
+    Save: {
+        padding: paddings.sm
+    },
+    SaveText: {
+        color: colors.lightText,
+        fontWeight: 'bold'
+    },
     Title: {
         padding: paddings.sm,
         fontWeight: 'bold',
@@ -80,9 +96,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         padding: paddings.sm,
-    },
-    ListItem: {
-        // padding: paddings.sm
     },
     ActiveCheckMark: {
         fontSize: fonts.lg,

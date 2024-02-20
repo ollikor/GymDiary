@@ -9,6 +9,7 @@ import Exercise from '../Screens/Exercise/Exercise';
 import Timer from '../Screens/Timer/Timer';
 import CreateProgram from '../Screens/CreateProgram/CreateProgram';
 import Moves from '../Screens/Moves/Moves';
+import { Button } from "react-native";
 
 const Tab = createBottomTabNavigator();
 
@@ -44,13 +45,20 @@ function ProgramsStackScreen() {
                 headerTintColor: colors.lightText,
                 headerTitleStyle: {
                     fontWeight: 'bold'
-                }
+                },
             }}>
             <ProgramsStack.Screen name='Gym Diary' component={Programs} />
             <ProgramsStack.Screen name='Exercise' component={Exercise} />
             <ProgramsStack.Screen name='Timer' component={Timer} />
-            <ProgramsStack.Screen name='Create Program' component={CreateProgram} />
-            <ProgramsStack.Screen name='Moves' component={Moves} />
+            <ProgramsStack.Screen
+                name='Create Program' component={CreateProgram} />
+            <ProgramsStack.Screen
+                // options={({ navigation, route }) => ({
+                //     headerRight: () => (
+                //         <Button title="Save" />
+                //     )
+                // })}
+                name='Moves' component={Moves} />
         </ProgramsStack.Navigator>
     );
 };
